@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walmart Risk Intelligence Dashboard — Q3 FY26</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root{--bg:#060b18;--card:#0c1425;--card2:#0f1a2e;--ch:#111d33;--bd:#1a2744;--bdh:#264070;--wm:#0071dc;--wl:#3b9ff5;--yl:#ffc220;--tl:#14b8a6;--am:#f59e0b;--rd:#ef4444;--gn:#22c55e;--pp:#a78bfa;--t1:#edf2f7;--t2:#8fa3bf;--t3:#5a7390}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 10% 0%,rgba(0,113,220,.1) 0%,transparent 55%),radial-gradient(ellipse at 90% 100%,rgba(20,184,166,.05) 0%,transparent 55%);pointer-events:none;z-index:0}
+.d{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:20px 24px 40px}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(135deg,#0c1628,#0a1020 60%,#0d1830);border:1px solid var(--bd);border-radius:16px;margin-bottom:18px;position:relative;overflow:hidden}
+.hd::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--wm),var(--yl),var(--wm),transparent)}
+.hl{display:flex;align-items:center;gap:14px}
+.sp svg{width:42px;height:42px}
+.wm{font-size:24px;font-weight:900;color:#fff;letter-spacing:-.5px}.wm em{font-style:normal;color:var(--yl)}
+.hc{flex:1;margin-left:20px}.hc h1{font-size:17px;font-weight:700;color:#fff}.hc p{font-size:11.5px;color:var(--t2);margin-top:2px}
+.hr{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.bg{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:18px;font-size:10.5px;font-weight:700;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--gn)}
+.pu{width:6px;height:6px;border-radius:50%;background:var(--gn);animation:pu 2s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.3}}
+.hm{font-size:10.5px;color:var(--t3)}
+.si{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:6px;background:rgba(0,113,220,.08);border:1px solid rgba(0,113,220,.2);font-size:11px;font-weight:700;color:var(--wl)}
+.nv{display:flex;gap:3px;padding:4px;background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:18px;overflow-x:auto}
+.nv button{flex:1;padding:9px 12px;border-radius:10px;text-align:center;font-size:12px;font-weight:600;color:var(--t3);cursor:pointer;transition:.25s;white-space:nowrap;border:none;background:none}
+.nv button:hover{color:var(--t1);background:rgba(0,113,220,.06)}
+.nv button.on{background:rgba(0,113,220,.12);color:var(--wl);border:1px solid rgba(0,113,220,.2)}
+.sc{display:none}.sc.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:18px}
+.cd{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;transition:.25s}
+.cd:hover{border-color:var(--bdh);background:var(--ch)}
+.ct{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--t3);margin-bottom:14px}
+.kp{background:linear-gradient(145deg,var(--card),var(--card2));border:1px solid var(--bd);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:.25s}
+.kp:hover{border-color:var(--bdh);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.kp::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.kp.b1::before{background:linear-gradient(90deg,var(--wm),var(--wl))}
+.kp.b2::before{background:linear-gradient(90deg,#0d9488,var(--tl))}
+.kp.b3::before{background:linear-gradient(90deg,#15803d,var(--gn))}
+.kp.b4::before{background:linear-gradient(90deg,#d97706,var(--yl))}
+.kp.b5::before{background:linear-gradient(90deg,#7c3aed,var(--pp))}
+.kt{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--t3)}
+.ki{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ki.c1{background:rgba(0,113,220,.1);color:var(--wl)}
+.ki.c2{background:rgba(20,184,166,.1);color:var(--tl)}
+.ki.c3{background:rgba(34,197,94,.1);color:var(--gn)}
+.ki.c4{background:rgba(245,158,11,.1);color:var(--yl)}
+.ki.c5{background:rgba(167,139,250,.1);color:var(--pp)}
+.kv{font-size:30px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.ch{display:inline-flex;align-items:center;gap:3px;margin-top:7px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:5px}
+.ch.u{color:var(--gn);background:rgba(34,197,94,.08)}
+.ch.d{color:var(--rd);background:rgba(239,68,68,.08)}
+.ch.n{color:var(--am);background:rgba(245,158,11,.08)}
+.ks{font-size:10.5px;color:var(--t3);margin-top:5px;line-height:1.4}
+.km{font-size:10.5px;color:var(--t2);margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.03)}
+.km b{font-weight:700;color:var(--t1)}
+.cc{position:relative;width:100%}.cc.t{height:340px}.cc.m{height:270px}
+.is{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.04)}.is:last-child{border-bottom:none}
+.ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ic.r{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15)}
+.ic.w{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15)}
+.ic.o{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15)}
+.ic.i{background:rgba(0,113,220,.08);border:1px solid rgba(0,113,220,.15)}
+.it{font-size:13px;font-weight:700;margin-bottom:3px}
+.id{font-size:11.5px;color:var(--t2);line-height:1.6}
+.tg{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:5px}
+.tg.cr{background:rgba(239,68,68,.1);color:var(--rd)}.tg.hi{background:rgba(249,115,22,.1);color:#f97316}
+.tg.op{background:rgba(34,197,94,.1);color:var(--gn)}.tg.mo{background:rgba(0,113,220,.1);color:var(--wl)}
+.ri{display:flex;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.03)}.ri:last-child{border-bottom:none}
+.rb{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.rb.cr{background:rgba(239,68,68,.1);color:var(--rd);border:1px solid rgba(239,68,68,.15)}
+.rb.hi{background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.15)}
+.rb.md{background:rgba(245,158,11,.1);color:var(--am);border:1px solid rgba(245,158,11,.15)}
+.rb.lo{background:rgba(34,197,94,.1);color:var(--gn);border:1px solid rgba(34,197,94,.15)}
+.rn{font-size:13px;font-weight:700;margin-bottom:2px}.rd2{font-size:11.5px;color:var(--t2);line-height:1.5}
+.rm{display:grid;grid-template-columns:26px repeat(5,1fr);grid-template-rows:repeat(5,1fr) 26px;gap:3px;height:350px}
+.rc{border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;gap:4px}
+.rc:hover{transform:scale(1.04);z-index:10}
+.rc.cg{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.08)}
+.rc.cy{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.08)}
+.rc.co{background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.1)}
+.rc.cr2{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.12)}
+.dt{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;color:#fff;z-index:5}
+.al{font-size:9px;color:var(--t3);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)}
+.al.bx{writing-mode:horizontal-tb;transform:none}
+.tb{width:100%;border-collapse:collapse}
+.tb th{text-align:left;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);padding:9px 10px;border-bottom:1px solid var(--bd)}
+.tb td{padding:10px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.02);color:var(--t2)}
+.tb .nm{font-variant-numeric:tabular-nums;font-weight:700;color:var(--t1)}
+.pr{margin-bottom:12px}.pl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px}
+.pl span:first-child{color:var(--t2)}.pl span:last-child{font-weight:700}
+.pt{height:7px;background:rgba(255,255,255,.03);border-radius:4px;overflow:hidden}
+.pf{height:100%;border-radius:4px;transition:width 1s ease}
+.ft{margin-top:24px;padding:14px 22px;background:var(--card);border:1px solid var(--bd);border-radius:12px;font-size:10px;color:var(--t3);line-height:1.8}
+@media(max-width:1200px){.g5{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.g5,.g4,.g3,.g2,.g32{grid-template-columns:1fr}.hd{flex-direction:column;gap:10px;text-align:center}.hl{flex-direction:column}.hc{margin-left:0;text-align:center}.hr{align-items:center}}
+</style>
+</head>
+<body>
+<div class="d">
+<!-- HEADER -->
+<div class="hd">
+<div class="hl">
+<div class="sp"><svg viewBox="0 0 48 48" fill="none"><path d="M24 2L26.8 17.5 24 20 21.2 17.5Z" fill="#FFC220"/><path d="M24 46L26.8 30.5 24 28 21.2 30.5Z" fill="#FFC220"/><path d="M2 24L17.5 21.2 20 24 17.5 26.8Z" fill="#FFC220"/><path d="M46 24L30.5 21.2 28 24 30.5 26.8Z" fill="#FFC220"/><path d="M8.3 8.3L18.2 17.2 17 19 15 18Z" fill="#FFC220"/><path d="M39.7 39.7L29.8 30.8 31 29 33 30Z" fill="#FFC220"/><path d="M8.3 39.7L18.2 30.8 17 29 15 30Z" fill="#FFC220"/><path d="M39.7 8.3L29.8 17.2 31 19 33 18Z" fill="#FFC220"/><circle cx="24" cy="24" r="3.8" fill="#FFC220"/></svg></div>
+<div class="wm">Walmart<em>®</em></div>
+</div>
+<div class="hc"><h1>Risk Intelligence Dashboard</h1><p>Q3 FY2026 · 13-Week Period Ended October 31, 2025 · NYSE: WMT</p></div>
+<div class="hr">
+<div class="bg"><span class="pu"></span> Beat Consensus — Revenue & EPS</div>
+<div class="hm">Report Date: November 20, 2025</div>
+<div class="si">📋 Student ID: 24164852</div>
+</div>
+</div>
+
+<!-- NAV -->
+<div class="nv">
+<button class="on" data-s="s1">📊 Overview</button>
+<button data-s="s2">📈 Trends</button>
+<button data-s="s3">⚠️ Risk Matrix</button>
+<button data-s="s4">🏬 Segments</button>
+<button data-s="s5">🔍 Current Issues</button>
+<button data-s="s6">🎯 FY26 Outlook</button>
+</div>
+
+<!-- S1: OVERVIEW -->
+<div class="sc on" id="s1">
+<div class="g5">
+<div class="kp b1"><div class="kt"><div class="kl">Total Revenue</div><div class="ki c1">💰</div></div><div class="kv">$179.5B</div><div class="ch u">▲ +5.8% YoY</div><div class="ks">Beat consensus $177.1B · CC +6.0%</div><div class="km">Q2 FY26: <b>$169.3B</b> · QoQ <b style="color:var(--gn)">+6.0%</b></div></div>
+<div class="kp b2"><div class="kt"><div class="kl">Adj. Operating Income</div><div class="ki c2">📈</div></div><div class="kv">$7.2B</div><div class="ch u">▲ +8.0% CC</div><div class="ks">GAAP OI −0.2% (PhonePe $0.7B)</div><div class="km">Q2 FY26: <b>$7.9B</b> · QoQ <b style="color:var(--rd)">−9.3%</b></div></div>
+<div class="kp b3"><div class="kt"><div class="kl">Adjusted EPS</div><div class="ki c3">💵</div></div><div class="kv">$0.62</div><div class="ch u">▲ Beat estimate</div><div class="ks">GAAP EPS $0.77 · FY25 adj: $2.51</div><div class="km">Q2 FY26: <b>$0.68</b> · QoQ <b style="color:var(--rd)">−8.8%</b></div></div>
+<div class="kp b4"><div class="kt"><div class="kl">eCommerce Growth</div><div class="ki c4">🛒</div></div><div class="kv">+27%</div><div class="ch u">7th Qtr &gt;20%</div><div class="ks">Store-fulfilled delivery + marketplace</div><div class="km">Q2 FY26: <b>+26%</b> · Accelerating</div></div>
+<div class="kp b5"><div class="kt"><div class="kl">U.S. Comp Sales</div><div class="ki c5">🏪</div></div><div class="kv">+4.5%</div><div class="ch u">Txn +1.8% · Ticket +2.7%</div><div class="ks">eComm contribution ~440 bps</div><div class="km">Q2 FY26: <b>+4.6%</b> · Stable</div></div>
+</div>
+<div class="g2">
+<div class="cd"><div class="ct">Quarterly Revenue — 8 Quarters ($B)</div><div class="cc t"><canvas id="c1"></canvas></div></div>
+<div class="cd"><div class="ct">Revenue vs Adj. OI Growth (%)</div><div class="cc t"><canvas id="c2"></canvas></div></div>
+</div>
+<div class="g3">
+<div class="cd"><div class="ct">Gross Margin</div><div class="kv" style="font-size:24px">24.2%</div><div class="ch u">+2 bps YoY</div><div class="ks">Led by Walmart U.S.; Int'l offset by BBD timing</div></div>
+<div class="cd"><div class="ct">Global Advertising</div><div class="kv" style="font-size:24px">+53%</div><div class="ch u">Incl. VIZIO · WMC +33%</div><div class="ks">$4.4B annual run-rate · High-margin accelerator</div></div>
+<div class="cd"><div class="ct">Membership Income</div><div class="kv" style="font-size:24px">+16.7%</div><div class="ch u">W+ double-digit</div><div class="ks">Sam's Club China +34% · Renewals steady</div></div>
+</div>
+</div>
+
+<!-- S2: TRENDS -->
+<div class="sc" id="s2">
+<div class="g2">
+<div class="cd"><div class="ct">📊 Revenue — Trailing 8 Quarters ($B)</div><div class="cc t"><canvas id="t1"></canvas></div></div>
+<div class="cd"><div class="ct">📊 Adjusted EPS — Trailing 8 Quarters</div><div class="cc t"><canvas id="t2"></canvas></div></div>
+</div>
+<div class="g2">
+<div class="cd"><div class="ct">📊 Global eCommerce Growth (%) — 8 Quarters</div><div class="cc t"><canvas id="t3"></canvas></div></div>
+<div class="cd"><div class="ct">📊 Walmart U.S. Comp Sales (%) — 8 Quarters</div><div class="cc t"><canvas id="t4"></canvas></div></div>
+</div>
+</div>
+
+<!-- S3: RISK -->
+<div class="sc" id="s3">
+<div class="g2">
+<div class="cd"><div class="ct">Enterprise Risk Heat Map</div><div class="rm" id="rmg"></div><div style="display:flex;justify-content:space-between;margin-top:5px;padding:0 26px"><span style="font-size:9px;color:var(--t3)">Low Likelihood</span><span style="font-size:9px;color:var(--t3)">→ High</span></div></div>
+<div class="cd"><div class="ct">Risk Register — Q3 FY26</div><div id="rl" style="max-height:430px;overflow-y:auto"></div></div>
+</div>
+<div class="g3">
+<div class="cd"><div class="ct">Severity Distribution</div><div class="cc m"><canvas id="r1"></canvas></div></div>
+<div class="cd"><div class="ct">Category Exposure</div><div class="cc m"><canvas id="r2"></canvas></div></div>
+<div class="cd"><div class="ct">Risk Trend — 4 Qtrs</div><div class="cc m"><canvas id="r3"></canvas></div></div>
+</div>
+</div>
+
+<!-- S4: SEGMENTS -->
+<div class="sc" id="s4">
+<div class="g4">
+<div class="kp b1"><div class="kt"><div class="kl">Walmart U.S.</div><div class="ki c1">🇺🇸</div></div><div class="kv" style="font-size:22px">$120.7B</div><div class="ch u">▲ 5.1%</div><div class="ks">Comp +4.5% · eComm +28% · OI $5.8B</div></div>
+<div class="kp b2"><div class="kt"><div class="kl">International</div><div class="ki c2">🌍</div></div><div class="kv" style="font-size:22px">$33.5B</div><div class="ch u">▲ 11.4% CC</div><div class="ks">Flipkart BBD · Adj OI +16.9%</div></div>
+<div class="kp b5"><div class="kt"><div class="kl">Sam's Club</div><div class="ki c5">🏷️</div></div><div class="kv" style="font-size:22px">$21.1B</div><div class="ch u">▲ 4.4%</div><div class="ks">Comp +3.8% · eComm +22%</div></div>
+<div class="kp b4"><div class="kt"><div class="kl">Advertising</div><div class="ki c4">📺</div></div><div class="kv" style="font-size:22px">+53%</div><div class="ch u">WMC US +33%</div><div class="ks">$4.4B run-rate · Incl. VIZIO</div></div>
+</div>
+<div class="g2">
+<div class="cd"><div class="ct">Segment Revenue YoY ($B)</div><div class="cc t"><canvas id="s41"></canvas></div></div>
+<div class="cd"><div class="ct">Segment OI YoY ($B)</div><div class="cc t"><canvas id="s42"></canvas></div></div>
+</div>
+<div class="g2">
+<div class="cd"><div class="ct">eCommerce Growth by Segment</div>
+<div class="pr"><div class="pl"><span>Walmart U.S.</span><span style="color:var(--gn)">+28%</span></div><div class="pt"><div class="pf" style="width:82%;background:linear-gradient(90deg,var(--wm),var(--wl))"></div></div></div>
+<div class="pr"><div class="pl"><span>International</span><span style="color:var(--gn)">+26%</span></div><div class="pt"><div class="pf" style="width:76%;background:linear-gradient(90deg,#0d9488,var(--tl))"></div></div></div>
+<div class="pr"><div class="pl"><span>Sam's Club</span><span style="color:var(--gn)">+22%</span></div><div class="pt"><div class="pf" style="width:65%;background:linear-gradient(90deg,#7c3aed,var(--pp))"></div></div></div>
+<div class="pr"><div class="pl"><span>Global</span><span style="font-weight:800;color:var(--yl)">+27%</span></div><div class="pt"><div class="pf" style="width:79%;background:linear-gradient(90deg,#d97706,var(--yl))"></div></div></div>
+<p style="margin-top:14px;font-size:11.5px;color:var(--t2);line-height:1.7">35% of store orders delivered &lt;3hrs. Expedited channels +70%.</p>
+</div>
+<div class="cd"><div class="ct">Revenue Mix</div><div class="cc m"><canvas id="s43"></canvas></div></div>
+</div>
+</div>
+
+<!-- S5: CURRENT ISSUES -->
+<div class="sc" id="s5">
+<div class="g32">
+<div class="cd"><div class="ct">🔍 Current Issues & Opportunities — Last 90 Days (Aug–Nov 2025)</div>
+<div class="is"><div class="ic r">⚡</div><div><div class="it">CEO Succession — McMillon to Furner</div><div class="id">Nov 12, 2025: John Furner succeeds Doug McMillon as CEO (Feb 1, 2026). Board signals continuity in omnichannel strategy, but concurrent reshuffling of international leadership introduces execution risk. Market will scrutinize Feb 19 earnings call for Furner's AI, India sourcing, and capital allocation priorities.</div><div class="tg cr">Critical — Governance Risk</div></div></div>
+<div class="is"><div class="ic r">🌐</div><div><div class="it">Tariff Escalation & Supply Chain Shift</div><div class="id">20% tariffs on Chinese imports pressure margins. Walmart tripled India exports, increased Vietnam/Mexico sourcing, reduced Chinese imports ~10%. Logistics costs rose 5% from longer routes; 34% of products remain import-sourced. JIT→JIC shift adds warehousing cost. CEO warned prices "may need to increase."</div><div class="tg cr">Critical — Operational Risk</div></div></div>
+<div class="is"><div class="ic w">💸</div><div><div class="it">PhonePe IPO — $0.7B Non-Cash Charge</div><div class="id">PhonePe modified share-based plans ahead of potential IPO, triggering $0.7B non-cash expense with no tax benefit. Depressed GAAP OI by ~0.2% YoY and ROI by ~25 bps. IPO success = significant value unlock; delay = write-down risk.</div><div class="tg hi">High — Financial Risk</div></div></div>
+<div class="is"><div class="ic o">🚀</div><div><div class="it">Advertising & Data Ecosystem Acceleration</div><div class="id">Global ad revenue surged 53% (incl. VIZIO), Walmart Connect U.S. +33%. The $4.4B annual ad business plus Data Ventures and Luminate (DaaS) represent a high-margin flywheel reshaping profit mix. VIZIO adds Connected TV inventory at scale. Strongest margin-expansion catalyst this quarter.</div><div class="tg op">Opportunity — Strategic Upside</div></div></div>
+<div class="is"><div class="ic i">📉</div><div><div class="it">Amazon Quarterly Revenue Parity</div><div class="id">In Q4 FY25, Amazon surpassed Walmart in single-quarter revenue for the first time since 1993. Walmart reclaimed lead in subsequent quarters, but this signals intensifying competition in eCommerce, logistics, and retail media. Sustained investment in AI ops, fulfilment automation, and marketplace is critical.</div><div class="tg mo">Monitor — Competitive Risk</div></div></div>
+</div>
+<div class="cd"><div class="ct">Issue Impact — Risk vs Opportunity</div><div class="cc" style="height:230px"><canvas id="ii"></canvas></div>
+<div style="margin-top:18px"><div class="ct">Balance Sheet Health</div>
+<table class="tb"><thead><tr><th>Metric</th><th>Q3 FY26</th><th>Signal</th></tr></thead><tbody>
+<tr><td>Cash</td><td class="nm">$10.6B</td><td><span class="ch n" style="font-size:9.5px">Stable</span></td></tr>
+<tr><td>Total Debt</td><td class="nm">$53.1B</td><td><span class="ch n" style="font-size:9.5px">Monitor</span></td></tr>
+<tr><td>FCF (FY25)</td><td class="nm">$12.7B</td><td><span class="ch u" style="font-size:9.5px">Healthy</span></td></tr>
+<tr><td>Tax Rate</td><td class="nm">22.9%</td><td><span class="ch u" style="font-size:9.5px">Stable</span></td></tr>
+<tr><td>CapEx</td><td class="nm">3.0–3.5%</td><td><span class="ch n" style="font-size:9.5px">Investing</span></td></tr>
+<tr><td>ROI (TTM)</td><td class="nm">14.8%</td><td><span class="ch d" style="font-size:9.5px">−30 bps</span></td></tr>
+</tbody></table></div></div>
+</div>
+</div>
+
+<!-- S6: GUIDANCE -->
+<div class="sc" id="s6">
+<div class="g4">
+<div class="kp b1"><div class="kl">FY26 Net Sales (CC)</div><div class="kv" style="font-size:23px;margin-top:8px">4.8%–5.1%</div><div class="ch u">↑ from 3.75%–4.75%</div><div class="ks">2nd consecutive raise</div></div>
+<div class="kp b2"><div class="kl">FY26 Adj. OI (CC)</div><div class="kv" style="font-size:23px;margin-top:8px">4.8%–5.5%</div><div class="ch n">Investment cycle</div><div class="ks">vs FY25 $29.5B</div></div>
+<div class="kp b3"><div class="kl">FY26 Adj. EPS</div><div class="kv" style="font-size:23px;margin-top:8px">$2.58–$2.63</div><div class="ch u">↑ from $2.52–$2.62</div><div class="ks">Incl. 1–2¢ FX</div></div>
+<div class="kp b5"><div class="kl">ROI (TTM)</div><div class="kv" style="font-size:23px;margin-top:8px">14.8%</div><div class="ch d">−30 bps</div><div class="ks">25 bps PhonePe</div></div>
+</div>
+<div class="g2">
+<div class="cd"><div class="ct">Guidance Evolution — FY26 Net Sales Growth (%)</div><div class="cc t"><canvas id="gc"></canvas></div></div>
+<div class="cd"><div class="ct">Forward Risk Watchlist</div>
+<div class="ri"><div class="rb cr">1</div><div><div class="rn">Tariff Escalation</div><div class="rd2">34% import-sourced. CEO warned price rises may follow further escalation.</div></div></div>
+<div class="ri"><div class="rb cr">2</div><div><div class="rn">CEO Transition Execution</div><div class="rd2">Multiple leadership changes. Feb 19 earnings is key inflection point.</div></div></div>
+<div class="ri"><div class="rb hi">3</div><div><div class="rn">Consumer Deceleration</div><div class="rd2">Inflation 3%, macro uncertainty. Q4 negative BBD timing optic.</div></div></div>
+<div class="ri"><div class="rb hi">4</div><div><div class="rn">Margin Sustainability</div><div class="rd2">Wage investments, CapEx 3–3.5%, VIZIO costs vs ads/data scaling.</div></div></div>
+<div class="ri"><div class="rb md">5</div><div><div class="rn">Amazon Parity</div><div class="rd2">Competitive intensity in eComm, logistics, retail media accelerating.</div></div></div>
+</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="ft">
+<b>Sources:</b> Walmart Q3 FY26 Earnings Release (Nov 20, 2025) · SEC 8-K · Walmart Corporate · Q1/Q2 FY26 Releases · FY25 Annual Report · CNBC · Yahoo Finance · Zacks · SupplyChainBrain<br>
+<b>Prepared by:</b> Student ID 24164852 · <b>Disclaimer:</b> Academic purposes only. Not investment advice. Data from SEC filings; includes non-GAAP measures.
+</div>
+</div>
+<script>
+Chart.defaults.color='#8fa3bf';Chart.defaults.borderColor='rgba(255,255,255,.04)';Chart.defaults.font.family="'Inter',system-ui";Chart.defaults.font.size=11;Chart.defaults.plugins.legend.labels.boxWidth=10;Chart.defaults.plugins.legend.labels.padding=14;
+document.querySelectorAll('.nv button').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.nv button').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.sc').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById(b.dataset.s).classList.add('on')})});
+const Q=['Q4 FY24','Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26'];
+const hl=(d,c,h)=>d.map((_,i)=>i===d.length-1?h:c);
+const hp=(d,s)=>d.map((_,i)=>i===d.length-1?s:3);
+const hc=(d,c,h)=>d.map((_,i)=>i===d.length-1?h:c);
+const hb=(d,w)=>d.map((_,i)=>i===d.length-1?w:0);
+const R=[173.4,161.5,169.3,169.6,180.6,165.6,169.3,179.5];
+
+// S1: Revenue bars
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:Q,datasets:[{data:R,backgroundColor:hl(R,'rgba(0,113,220,.22)','rgba(0,113,220,.7)'),borderColor:hl(R,'rgba(0,113,220,.35)','#3b9ff5'),borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'B'}}},scales:{y:{min:150,ticks:{callback:v=>'$'+v+'B'}},x:{grid:{display:false}}}}});
+
+// S1: Growth lines
+new Chart(document.getElementById('c2'),{type:'line',data:{labels:Q,datasets:[{label:'Rev Growth %',data:[5.7,6.0,4.8,5.5,4.1,2.5,4.8,5.8],borderColor:'#0071dc',backgroundColor:'rgba(0,113,220,.06)',fill:true,tension:.4,pointRadius:hp(R,7),pointBackgroundColor:hc(R,'#0071dc','#3b9ff5'),pointBorderColor:hc(R,'transparent','#fff'),pointBorderWidth:hb(R,2)},{label:'Adj OI Growth % CC',data:[11.0,13.7,8.5,8.2,7.5,4.4,8.0,8.0],borderColor:'#14b8a6',backgroundColor:'rgba(20,184,166,.06)',fill:true,tension:.4,pointRadius:hp(R,7),pointBackgroundColor:hc(R,'#14b8a6','#2dd4bf'),pointBorderColor:hc(R,'transparent','#fff'),pointBorderWidth:hb(R,2)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+// S2: Revenue trend line
+new Chart(document.getElementById('t1'),{type:'line',data:{labels:Q,datasets:[{label:'Revenue ($B)',data:R,borderColor:'#0071dc',borderWidth:2.5,tension:.35,backgroundColor:'rgba(0,113,220,.08)',fill:true,pointRadius:hp(R,8),pointBackgroundColor:hc(R,'#0071dc','#3b9ff5'),pointBorderColor:hc(R,'transparent','#fff'),pointBorderWidth:hb(R,3)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'B'}}},scales:{y:{min:155,ticks:{callback:v=>'$'+v+'B'}},x:{grid:{display:false}}}}});
+
+// S2: EPS trend
+var E=[0.65,0.63,0.67,0.58,0.65,0.61,0.68,0.62];
+new Chart(document.getElementById('t2'),{type:'line',data:{labels:Q,datasets:[{label:'Adj EPS',data:E,borderColor:'#14b8a6',borderWidth:2.5,tension:.35,backgroundColor:'rgba(20,184,166,.08)',fill:true,pointRadius:hp(E,8),pointBackgroundColor:hc(E,'#14b8a6','#2dd4bf'),pointBorderColor:hc(E,'transparent','#fff'),pointBorderWidth:hb(E,3)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toFixed(2)}}},scales:{y:{min:.5,ticks:{callback:v=>'$'+v.toFixed(2)}},x:{grid:{display:false}}}}});
+
+// S2: eComm bars
+var EC=[23,21,21,27,20,22,26,27];
+new Chart(document.getElementById('t3'),{type:'bar',data:{labels:Q,datasets:[{data:EC,backgroundColor:hl(EC,'rgba(167,139,250,.22)','rgba(167,139,250,.7)'),borderColor:hl(EC,'rgba(167,139,250,.4)','#a78bfa'),borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'+'+c.parsed.y+'%'}}},scales:{y:{max:35,ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+// S2: Comp line
+var CM=[4.6,3.8,4.2,5.3,4.6,4.5,4.6,4.5];
+new Chart(document.getElementById('t4'),{type:'line',data:{labels:Q,datasets:[{data:CM,borderColor:'#f59e0b',borderWidth:2.5,tension:.35,backgroundColor:'rgba(245,158,11,.08)',fill:true,pointRadius:hp(CM,8),pointBackgroundColor:hc(CM,'#f59e0b','#fbbf24'),pointBorderColor:hc(CM,'transparent','#fff'),pointBorderWidth:hb(CM,3)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'+'+c.parsed.y+'%'}}},scales:{y:{min:2,max:7,ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+// S3: Risk Matrix
+var risks=[{id:'T',n:'Tariff Escalation',l:4,im:5,c:'#ef4444',s:'cr',d:'20% tariffs on Chinese imports. 34% import-sourced. Logistics +5%.'},{id:'C',n:'CEO Transition',l:3,im:5,c:'#ef4444',s:'cr',d:'McMillon→Furner Feb 2026. International reshuffling. Execution risk.'},{id:'S',n:'Consumer Slowdown',l:3,im:4,c:'#f97316',s:'hi',d:'Inflation 3%, macro uncertainty. Discretionary spending softening.'},{id:'F',n:'FX Volatility',l:4,im:3,c:'#f97316',s:'hi',d:'Peso/rupee/yuan. 1-2¢ EPS headwind. Q3 sales −$0.2B FX.'},{id:'M',n:'Margin Pressure',l:3,im:4,c:'#f97316',s:'hi',d:'Wage + CapEx + VIZIO. Needs ads/data to scale faster.'},{id:'P',n:'PhonePe IPO',l:3,im:3,c:'#f59e0b',s:'md',d:'$0.7B charge taken. Success=unlock; failure=write-down.'},{id:'A',n:'Amazon Parity',l:4,im:3,c:'#f97316',s:'hi',d:'Amazon surpassed WMT Q4 FY25. eComm intensity rising.'},{id:'R',n:'Supply Chain Reorg',l:2,im:2,c:'#22c55e',s:'lo',d:"Sam's Club restructuring. JIT→JIC transition manageable."},{id:'L',n:'Legal/Regulatory',l:2,im:3,c:'#f59e0b',s:'md',d:'Opioid resolved. Antitrust on retail media emerging.'}];
+var mc=[['cg','cg','cy','cy','co'],['cg','cy','cy','co','co'],['cy','cy','co','co','cr2'],['cy','co','co','cr2','cr2'],['co','co','cr2','cr2','cr2']];
+var g=document.getElementById('rmg');
+for(var row=4;row>=0;row--){var ax=document.createElement('div');ax.className='al';ax.textContent=row+1;g.appendChild(ax);for(var col=0;col<5;col++){var cl=document.createElement('div');cl.className='rc '+mc[4-row][col];risks.filter(r=>r.l===(col+1)&&r.im===(row+1)).forEach(r=>{var dt=document.createElement('div');dt.className='dt';dt.style.background=r.c;dt.textContent=r.id;dt.title=r.n;cl.appendChild(dt)});g.appendChild(cl)}}
+g.appendChild(document.createElement('div'));for(var i=1;i<=5;i++){var b=document.createElement('div');b.className='al bx';b.textContent=i;g.appendChild(b)}
+var rl=document.getElementById('rl');risks.forEach(r=>{rl.innerHTML+='<div class="ri"><div class="rb '+r.s+'">'+r.id+'</div><div><div class="rn">'+r.n+'</div><div class="rd2">'+r.d+'</div></div></div>'});
+
+// S3: Risk donut
+new Chart(document.getElementById('r1'),{type:'doughnut',data:{labels:['Critical','High','Medium','Low'],datasets:[{data:[2,3,2,1],backgroundColor:['#ef4444','#f97316','#f59e0b','#22c55e'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom'}}}});
+
+// S3: Risk radar
+new Chart(document.getElementById('r2'),{type:'radar',data:{labels:['Operational','Financial','Strategic','Compliance','Geopolitical','Competitive'],datasets:[{label:'Q3 FY26',data:[3.5,3.8,4.2,2.0,4.0,3.5],backgroundColor:'rgba(0,113,220,.1)',borderColor:'#0071dc',borderWidth:2,pointBackgroundColor:'#3b9ff5'},{label:'Q2 FY26',data:[3.0,3.5,3.5,2.5,3.8,3.2],backgroundColor:'rgba(148,163,184,.05)',borderColor:'#5a7390',borderWidth:1,borderDash:[4,4],pointBackgroundColor:'#5a7390'}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:5,ticks:{stepSize:1,display:false},grid:{color:'rgba(255,255,255,.04)'}}},plugins:{legend:{position:'bottom'}}}});
+
+// S3: Risk trend
+new Chart(document.getElementById('r3'),{type:'line',data:{labels:['Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26'],datasets:[{label:'Critical',data:[1,1,1,2],borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.06)',fill:true,tension:.3},{label:'High',data:[2,2,3,3],borderColor:'#f97316',backgroundColor:'rgba(249,115,22,.06)',fill:true,tension:.3},{label:'Medium',data:[3,2,2,2],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.06)',fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:5,ticks:{stepSize:1}},x:{grid:{display:false}}}}});
+
+// S4: Segment bars
+new Chart(document.getElementById('s41'),{type:'bar',data:{labels:['Walmart U.S.','International',"Sam's Club"],datasets:[{label:'Q3 FY25',data:[114.9,30.2,20.2],backgroundColor:'rgba(90,115,144,.2)',borderRadius:6},{label:'Q3 FY26',data:[120.7,33.5,21.1],backgroundColor:'rgba(0,113,220,.55)',borderColor:'rgba(0,113,220,.7)',borderWidth:1,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{min:10,ticks:{callback:v=>'$'+v+'B'}},x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('s42'),{type:'bar',data:{labels:['Walmart U.S.','International',"Sam's Club"],datasets:[{label:'Q3 FY25',data:[5.5,1.2,0.66],backgroundColor:'rgba(90,115,144,.2)',borderRadius:6},{label:'Q3 FY26',data:[5.8,1.4,0.70],backgroundColor:'rgba(20,184,166,.5)',borderColor:'rgba(20,184,166,.7)',borderWidth:1,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{ticks:{callback:v=>'$'+v+'B'}},x:{grid:{display:false}}}}});
+
+new Chart(document.getElementById('s43'),{type:'doughnut',data:{labels:['Walmart U.S.','International',"Sam's Club"],datasets:[{data:[120.7,33.5,21.1],backgroundColor:['#0071dc','#14b8a6','#a78bfa'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.label+': $'+c.parsed+'B'}}}}});
+
+// S5: Issue impact
+new Chart(document.getElementById('ii'),{type:'bar',data:{labels:['CEO\nTransition','Tariffs','PhonePe\nIPO','Ad\nEcosystem','Amazon\nParity'],datasets:[{data:[8.5,9.0,6.5,-7.5,7.0],backgroundColor:['rgba(239,68,68,.5)','rgba(239,68,68,.6)','rgba(245,158,11,.5)','rgba(34,197,94,.5)','rgba(249,115,22,.5)'],borderColor:['#ef4444','#ef4444','#f59e0b','#22c55e','#f97316'],borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{var v=c.parsed.x;return v<0?'Opportunity: '+Math.abs(v)+'/10':'Risk: '+v+'/10'}}}},scales:{x:{min:-10,max:10,ticks:{callback:v=>Math.abs(v)},title:{display:true,text:'← Opportunity     Risk →',font:{size:10},color:'#5a7390'}},y:{grid:{display:false}}}}});
+
+// S6: Guidance
+new Chart(document.getElementById('gc'),{type:'bar',data:{labels:['Initial\n(Feb 25)','Q1\n(May 25)','Q2\n(Aug 25)','Q3\n(Nov 25)'],datasets:[{label:'Low',data:[3.0,3.0,3.75,4.8],backgroundColor:'rgba(0,113,220,.25)',borderRadius:6},{label:'High',data:[4.0,4.0,4.75,5.1],backgroundColor:'rgba(0,113,220,.55)',borderColor:'rgba(59,159,245,.6)',borderWidth:1,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+'%'}}},scales:{y:{max:6,ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+</script>
+</body>
+</html>
